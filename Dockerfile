@@ -20,7 +20,7 @@ ARG  USER_GID=$USER_UID
 #  when running a container. The IAR build tools 
 #  are going to be on the search path
 ENV  AZSPHERE_SDK_PATH="/opt/azurespheresdk"
-ENV  AZSPHERE_PROJECT_PATH=$HOME
+ENV  AZSPHERE_PROJECT_BASE_PATH=$HOME
 ENV  AZSPHERE_BUILD_PATH="/build"
 ENV  PATH="${AZSPHERE_SDK_PATH}:$PATH"
 

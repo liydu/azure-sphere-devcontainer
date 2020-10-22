@@ -12,23 +12,31 @@ CONTAINER_NAME="azsphere-sdk-docker"
 CONTAINER_PROJECT_HOME="/home/azsphereuser"
 
 azsphere-docker-build() {
-    echo "Map project folder to Docker container...\n"
-    docker run --name $CONTAINER_NAME -d -t -v $PWD/$1:$CONTAINER_PROJECT_HOME/$1 liydu/azsphere-docker-devcontainer
+    PROJECT_PATH=$1
+    PROJECT=$2
 
-    echo "Generate Ninja project...\n"
+    if [ $# -eq 1 ]
+    then
+        PROJECT=$PROJECT_PATH
+    fi
+
+    echo "Map project folder to Docker container: $CONTAINER_NAME..."
+    docker run --name $CONTAINER_NAME -d -t -v $PWD/$PROJECT_PATH:$CONTAINER_PROJECT_HOME/$PROJECT_PATH liydu/azsphere-docker-devcontainer
+
+    echo "\nGenerate Ninja project..."
     docker exec $CONTAINER_NAME cmake -G "Ninja" \
         -DCMAKE_TOOLCHAIN_FILE="/opt/azurespheresdk/CMakeFiles/AzureSphereToolchain.cmake" \
         -DAZURE_SPHERE_TARGET_API_SET="latest-lts" \
         -DCMAKE_BUILD_TYPE="Debug" \
-        $CONTAINER_PROJECT_HOME/$2
+        $CONTAINER_PROJECT_HOME/$PROJECT
 
-    echo "Build project...\n"
+    echo "\nBuild project..."
     docker exec $CONTAINER_NAME ninja
 
-    echo "Copy built files to local...\n"
-    docker cp $CONTAINER_NAME:/build $PWD/$2
+    echo "\nCopy built files to local..."
+    docker cp $CONTAINER_NAME:/build $PWD/$PROJECT
 
-    echo "Cleanup...\n"
+    echo "\nCleanup container: $CONTAINER_NAME..."
     docker rm -f $CONTAINER_NAME
 }
 
