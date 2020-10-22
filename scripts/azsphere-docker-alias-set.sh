@@ -33,10 +33,10 @@ azsphere-docker-build() {
     echo "\nBuild project..."
     docker exec $CONTAINER_NAME ninja
 
-    echo "\nCopy built files to local..."
+    echo "\nCopy built files to local folder: $PWD/$PROJECT/build..."
     docker cp $CONTAINER_NAME:/build $PWD/$PROJECT
 
-    echo "\nCleanup container: $CONTAINER_NAME..."
+    echo "\nCleanup container:"
     docker rm -f $CONTAINER_NAME
 }
 

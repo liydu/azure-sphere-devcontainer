@@ -30,3 +30,21 @@ To unset the aliases:
 # Unset the standard azure-sphere-devcontainer aliases 
 $ source azure-sphere-devcontainer/scripts/azsphere-docker-aliases-unset.sh
 ```
+
+## Build project
+
+```bash
+azsphere-docker-build [Your Project Path]
+```
+
+Or if your project is nested in the repo, for example the [HelloWorld/HelloWorld_HighLevelApp](https://github.com/Azure/azure-sphere-samples/tree/master/Samples/HelloWorld/HelloWorld_HighLevelApp) that requires upper level folder as dependencies.
+
+```bash
+azsphere-docker-build [Your Project Path] [Your Project]
+```
+
+To open an interactive console:
+
+```bash
+azsphere-docker-interactive
+```

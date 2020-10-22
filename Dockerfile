@@ -34,6 +34,9 @@ RUN  apt-get update && \
           git \
           locales \
           wget \
+          apt-transport-https \
+          gnupg2 \
+          software-properties-common \
           libsqlite3-0 && \
      apt-get clean autoclean && \
      apt-get autoremove -y && \
@@ -42,6 +45,12 @@ RUN  apt-get update && \
 COPY scripts/common-debian.sh /tmp/library-scripts/
 RUN bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "${PACKAGES_ALREADY_INSTALLED}" \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+
+# Update CMake
+RUN  wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null && \
+     apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' && \
+     apt-get update && \
+     apt-get install -y --no-install-recommends cmake
 
 # Creates and sets the build directory
 RUN  mkdir ${AZSPHERE_BUILD_PATH} && \
