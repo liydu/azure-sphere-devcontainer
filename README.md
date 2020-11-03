@@ -34,15 +34,28 @@ $ source azure-sphere-devcontainer/scripts/azsphere-docker-aliases-unset.sh
 
 ## Build project
 
+Build your project folder that has `CMakeLists.txt` in the root folder:
+
 ```bash
 azsphere-docker-build [Your Project Path]
 ```
 
-Or if your project is nested in the repo, for example the [HelloWorld/HelloWorld_HighLevelApp](https://github.com/Azure/azure-sphere-samples/tree/master/Samples/HelloWorld/HelloWorld_HighLevelApp) that requires upper level folder as dependencies.
+For example, [Azure-Samples/Azure-RTOS-on-Azure-Sphere-Mediatek-MT3620](https://github.com/Azure-Samples/Azure-RTOS-on-Azure-Sphere-Mediatek-MT3620):
 
 ```bash
-# azsphere-docker-build azure-sphere-samples azure-sphere-samples/Samples/HelloWorld/HelloWorld_RTApp_MT3620_BareMetal
+azsphere-docker-build Azure-RTOS-on-Azure-Sphere-Mediatek-MT3620
+```
+
+Or if your project is nested in the repo:
+
+```bash
 azsphere-docker-build [Your Project Path] [Your Project]
+```
+
+For example the [HelloWorld/HelloWorld_HighLevelApp](https://github.com/Azure/azure-sphere-samples/tree/master/Samples/HelloWorld/HelloWorld_HighLevelApp) that requires upper level folder as dependencies.
+
+```bash
+azsphere-docker-build azure-sphere-samples azure-sphere-samples/Samples/HelloWorld/HelloWorld_RTApp_MT3620_BareMetal
 ```
 
 To open an interactive console:
