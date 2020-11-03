@@ -16,13 +16,16 @@ ARG  USERNAME=azsphereuser
 ARG  USER_UID=2000
 ARG  USER_GID=$USER_UID
 
+# ARM GCC package
+ARG  ARM_GCC_VERSION="9-2020q2"
+ARG  ARM_GCC_PACK_NAME="gcc-arm-none-eabi-9-2020-q2-update"
+
 # These environment variables will also become available
 #  when running a container. The IAR build tools 
 #  are going to be on the search path
 ENV  AZSPHERE_SDK_PATH="/opt/azurespheresdk"
-ENV  AZSPHERE_PROJECT_BASE_PATH=$HOME
+ENV  AZSPHERE_SRC_PATH="/src"
 ENV  AZSPHERE_BUILD_PATH="/build"
-ENV  PATH="${AZSPHERE_SDK_PATH}:$PATH"
 
 # Updates the Ubuntu packages, install sudo and cleanup
 RUN  apt-get update && \
@@ -34,6 +37,7 @@ RUN  apt-get update && \
           git \
           locales \
           wget \
+          bzip2 \
           apt-transport-https \
           gnupg2 \
           software-properties-common \
@@ -52,11 +56,19 @@ RUN  wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/nu
      apt-get update && \
      apt-get install -y --no-install-recommends cmake
 
-# Creates and sets the build directory
-RUN  mkdir ${AZSPHERE_BUILD_PATH} && \
+# Get ARM GCC
+RUN  wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu-rm/${ARM_GCC_VERSION}/${ARM_GCC_PACK_NAME}-x86_64-linux.tar.bz2 | tar -xj -C /opt
+
+# Creates and sets the src and build directory
+RUN  mkdir ${AZSPHERE_SRC_PATH} ${AZSPHERE_BUILD_PATH} && \
+     chmod u+rwx -R ${AZSPHERE_SRC_PATH} && \
+     chmod g+rwx -R ${AZSPHERE_SRC_PATH} && \
+     chown ${USERNAME}:${USERNAME} ${AZSPHERE_SRC_PATH} && \
      chmod u+rwx -R ${AZSPHERE_BUILD_PATH} && \
      chmod g+rwx -R ${AZSPHERE_BUILD_PATH} && \
      chown ${USERNAME}:${USERNAME} ${AZSPHERE_BUILD_PATH}
+
+ENV  PATH="${AZSPHERE_SDK_PATH}:/opt/${ARM_GCC_PACK_NAME}/bin:$PATH"
 
 # When the container is started, it will start from the ${AZSPHERE_BUILD_PATH} directory
 USER ${USERNAME} 

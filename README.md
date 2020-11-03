@@ -1,4 +1,5 @@
 # azure-sphere-devcontainer
+
 Azure Sphere uses Dev Container
 
 ## Build a Azure Sphere SDK Docker image
@@ -14,7 +15,7 @@ $ docker build -t liydu/azsphere-docker-devcontainer \
 The azsphere-docker standard aliases are set with the azsphere-docker-aliases-set script:
 
 ```bash
-# Set the standard azsphere-docker aliases 
+# Set the standard azsphere-docker aliases
 $ source azure-sphere-devcontainer/scripts/azsphere-docker-aliases-set.sh
 ```
 
@@ -27,7 +28,7 @@ $ alias | grep 'azsphere*'
 To unset the aliases:
 
 ```bash
-# Unset the standard azure-sphere-devcontainer aliases 
+# Unset the standard azure-sphere-devcontainer aliases
 $ source azure-sphere-devcontainer/scripts/azsphere-docker-aliases-unset.sh
 ```
 
@@ -40,6 +41,7 @@ azsphere-docker-build [Your Project Path]
 Or if your project is nested in the repo, for example the [HelloWorld/HelloWorld_HighLevelApp](https://github.com/Azure/azure-sphere-samples/tree/master/Samples/HelloWorld/HelloWorld_HighLevelApp) that requires upper level folder as dependencies.
 
 ```bash
+# azsphere-docker-build azure-sphere-samples azure-sphere-samples/Samples/HelloWorld/HelloWorld_RTApp_MT3620_BareMetal
 azsphere-docker-build [Your Project Path] [Your Project]
 ```
 
